@@ -29,3 +29,21 @@ jobs:
           path: site
       - uses: actions/deploy-pages@v4
         id: deployment
+      - name: Checkout Kodi file source
+        uses: actions/checkout@v4
+        with:
+          repository: anicat-org/anicat-org.github.io
+          ref: main
+          path: file-source
+          ssh-key: ${{ secrets.KODI_FILE_SOURCE_DEPLOY_KEY }}
+      - name: Update root file source
+        run: |
+          python tools/build_file_source.py --output file-source/public
+          cd file-source
+          git config user.name "AniCAT releases"
+          git config user.email "actions@users.noreply.github.com"
+          git add public/
+          if ! git diff --cached --quiet; then
+            git commit -m "Update Kodi repository installer"
+            git push origin HEAD:main
+          fi

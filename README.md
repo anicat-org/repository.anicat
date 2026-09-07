@@ -1,5 +1,11 @@
 # AniCAT Repository
 
+**Fuente para el gestor de archivos de Kodi: https://anicat-org.github.io/**
+El índice de esa raíz muestra directamente el ZIP instalable del repositorio.
+Tras publicar, el workflow sincroniza el índice y el ZIP en
+`anicat-org/anicat-org.github.io` usando `KODI_FILE_SOURCE_DEPLOY_KEY`, una clave
+SSH con escritura limitada a ese repositorio público.
+
 Repositorio instalable para Kodi 21 o posterior, publicado en:
 
 https://anicat-org.github.io/repository.anicat/
@@ -41,9 +47,9 @@ verificación de la release al construir el repositorio.
 Pages admite `repo.ani.cat`. Cuando se decida activarlo:
 
 1. Crear en el DNS de `ani.cat` un CNAME `repo` → `anicat-org.github.io`.
-2. Configurar `repo.ani.cat` en Settings → Pages → Custom domain y habilitar HTTPS
+2. Configurar `repo.ani.cat` en el repositorio `anicat-org.github.io`, en Settings → Pages → Custom domain y habilitar HTTPS
    cuando GitHub termine de emitir el certificado.
-3. Cambiar `BASE_URL` a `https://repo.ani.cat` en el generador y aumentar
+3. Cambiar `BASE_URL` a `https://repo.ani.cat/repository.anicat` en el generador y aumentar
    `REPO_VERSION` a `1.0.1`; publicar y verificar los enlaces y las actualizaciones
    de los repositorios ya instalados. Mantener operativos los enlaces anteriores
    durante la transición.
