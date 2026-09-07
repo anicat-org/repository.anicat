@@ -8,18 +8,12 @@ from pathlib import Path, PurePosixPath
 import re
 import subprocess
 import tempfile
-from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile, ZIP_DEFLATED
 
 SOURCE = 'anicat-org/plugin.video.anicat'
 BASE_URL = 'https://anicat-org.github.io/repository.anicat'
 REPO_VERSION = '1.0.0'
-
-
-def fetch(url):
-    with urlopen(Request(url, headers={'User-Agent': 'AniCAT-repository-builder'}), timeout=60) as response:
-        return response.read()
 
 
 def release_zip(tag):
@@ -119,7 +113,7 @@ def build(data, output, base_url=BASE_URL, expected_version=None):
       <ol><li>En Kodi, permite los orígenes desconocidos para instalar nuestro ZIP.</li><li>Abre Add-ons → Instalar desde un archivo .zip y selecciona el repositorio descargado.</li><li>En Instalar desde repositorio → AniCAT Repository → Add-ons de vídeo, instala AniCAT.</li><li>Mantén activadas las actualizaciones automáticas de AniCAT.</li></ol>
       <p>Dependencias: Google Drive y Cloud Drive Common, disponibles en el repositorio oficial de Kodi. Si Kodi solicita una dependencia, comprueba que ese repositorio está habilitado.</p>
       <p>Versión del addon: ''' + html.escape(version) + ''' · <a href="plugin.video.anicat/''' + package_name + '''">ZIP del addon</a></p>
-      <p><a href="https://github.com/anicat-org/plugin.video.anicat/releases">Novedades</a> · <a href="repository.anicat/">Archivos del repositorio</a></p></html>''', encoding='utf-8')
+      <p><a href="plugin.video.anicat/changelog-''' + version + '''.txt">Novedades</a> · <a href="repository.anicat/">Archivos del repositorio</a></p></html>''', encoding='utf-8')
     return version
 
 
