@@ -26,6 +26,10 @@ class RepositoryTests(unittest.TestCase):
             self.assertEqual((root / 'addons.xml.md5').read_text(), hashlib.md5(index).hexdigest())
             self.assertEqual({node.get('id') for node in ET.fromstring(index)}, {'repository.anicat', 'plugin.video.anicat'})
             self.assertEqual((root / 'plugin.video.anicat/plugin.video.anicat-1.5.5.zip').read_bytes(), data)
+            self.assertEqual((root / 'repository.anicat-1.0.0.zip').read_bytes(),
+                             (root / 'repository.anicat/repository.anicat-1.0.0.zip').read_bytes())
+            self.assertIn('href="repository.anicat-1.0.0.zip"', (root / 'index.html').read_text())
+            self.assertTrue((root / 'descargar.html').exists())
             with ZipFile(root / 'repository.anicat/repository.anicat-1.0.0.zip') as archive:
                 self.assertIsNone(archive.testzip())
                 manifest = ET.fromstring(archive.read('repository.anicat/addon.xml'))

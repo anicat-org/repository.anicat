@@ -106,7 +106,7 @@ def build(data, output, base_url=BASE_URL, expected_version=None):
     (output / '.nojekyll').write_text('')
     for folder, filename in [(repo_dir, repo_package), (addon_dir, package_name)]:
         (folder / 'index.html').write_text('<!doctype html><meta charset="utf-8"><a href="../">../</a><br><a href="' + filename + '">' + filename + '</a>', encoding='utf-8')
-    (output / 'index.html').write_text('''<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    (output / 'descargar.html').write_text('''<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
       <title>AniCAT · Repositorio Kodi</title><style>body{background:#101012;color:#eee;font:18px system-ui;max-width:760px;margin:60px auto;padding:24px}a{color:#ff666e}img{width:88px;border-radius:24px}li{margin:16px 0}.download{display:inline-block;background:#d90819;color:white;padding:16px 24px;border-radius:10px;text-decoration:none}</style>
       <img src="repository.anicat/icon.png" alt="AniCAT"><h1>AniCAT para Kodi</h1><p>Instala el repositorio una vez y recibe las nuevas versiones estables. Kodi 21 o posterior.</p>
       <p><a class="download" href="repository.anicat/''' + repo_package + '''">Descargar repositorio AniCAT</a></p>
@@ -114,6 +114,11 @@ def build(data, output, base_url=BASE_URL, expected_version=None):
       <p>Dependencias: Google Drive y Cloud Drive Common, disponibles en el repositorio oficial de Kodi. Si Kodi solicita una dependencia, comprueba que ese repositorio está habilitado.</p>
       <p>Versión del addon: ''' + html.escape(version) + ''' · <a href="plugin.video.anicat/''' + package_name + '''">ZIP del addon</a></p>
       <p><a href="plugin.video.anicat/changelog-''' + version + '''.txt">Novedades</a> · <a href="repository.anicat/">Archivos del repositorio</a></p></html>''', encoding='utf-8')
+    (output / repo_package).write_bytes((repo_dir / repo_package).read_bytes())
+    (output / 'index.html').write_text(
+        '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Index of /</title></head>'
+        '<body><h1>Index of /</h1><hr><pre><a href="' + repo_package + '">'
+        + repo_package + '</a></pre><hr></body></html>\n', encoding='utf-8')
     return version
 
 

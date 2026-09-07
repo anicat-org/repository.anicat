@@ -42,17 +42,13 @@ HTTPS; se publica además su SHA-256. `hashes=false` evita exigir cabeceras
 `Content-SHA256` que GitHub Pages no proporciona; no desactiva HTTPS ni la
 verificación de la release al construir el repositorio.
 
-## Dominio propio (pendiente)
+## Dominio propio
 
-Pages admite `repo.ani.cat`. Cuando se decida activarlo:
+`repo.ani.cat` está configurado en Pages de este repositorio, con CNAME DNS
+hacia `anicat-org.github.io` y HTTPS. El índice de archivos y el ZIP se publican
+junto a `addons.xml` en la raíz. La landing se conserva en `descargar.html`.
+GitHub redirige las URL anteriores del sitio de proyecto al dominio propio.
 
-1. Crear en el DNS de `ani.cat` un CNAME `repo` → `anicat-org.github.io`.
-2. Configurar `repo.ani.cat` en el repositorio `anicat-org.github.io`, en Settings → Pages → Custom domain y habilitar HTTPS
-   cuando GitHub termine de emitir el certificado.
-3. Cambiar `BASE_URL` a `https://repo.ani.cat/repository.anicat` en el generador y aumentar
-   `REPO_VERSION` a `1.0.1`; publicar y verificar los enlaces y las actualizaciones
-   de los repositorios ya instalados. Mantener operativos los enlaces anteriores
-   durante la transición.
-
-No se configura todavía el dominio en Pages para no redirigir usuarios a un DNS
-que aún no está preparado.
+La fuente alternativa https://anicat-org.github.io/ también sirve el instalador.
+El instalador 1.0.0 conserva sus URL originales, compatibles mediante esa
+redirección. Una futura migración de URL internas requiere aumentar su versión.
