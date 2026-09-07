@@ -10,7 +10,7 @@ Repositorio instalable para Kodi 21 o posterior, publicado en:
 
 https://anicat-org.github.io/repository.anicat/
 
-Descarga `repository.anicat/repository.anicat-1.0.0.zip`, instálalo desde un ZIP en
+Descarga `repository.anicat/repository.anicat-1.0.1.zip`, instálalo desde un ZIP en
 Kodi y abre **Instalar desde repositorio → AniCAT Repository → Add-ons de vídeo**.
 Las actualizaciones dependen de tenerlas habilitadas en Kodi. Google Drive 1.5.0
 y Cloud Drive Common 1.4.0 están disponibles en el repositorio oficial de Kodi.
@@ -50,5 +50,5 @@ junto a `addons.xml` en la raíz. La landing se conserva en `descargar.html`.
 GitHub redirige las URL anteriores del sitio de proyecto al dominio propio.
 
 La fuente alternativa https://anicat-org.github.io/ también sirve el instalador.
-El instalador 1.0.0 conserva sus URL originales, compatibles mediante esa
-redirección. Una futura migración de URL internas requiere aumentar su versión.
+El instalador 1.0.1 usa directamente `https://repo.ani.cat/repository.anicat`
+para evitar depender de redirecciones desde las URL anteriores.

@@ -26,14 +26,16 @@ class RepositoryTests(unittest.TestCase):
             self.assertEqual((root / 'addons.xml.md5').read_text(), hashlib.md5(index).hexdigest())
             self.assertEqual({node.get('id') for node in ET.fromstring(index)}, {'repository.anicat', 'plugin.video.anicat'})
             self.assertEqual((root / 'plugin.video.anicat/plugin.video.anicat-1.5.5.zip').read_bytes(), data)
-            self.assertEqual((root / 'repository.anicat-1.0.0.zip').read_bytes(),
-                             (root / 'repository.anicat/repository.anicat-1.0.0.zip').read_bytes())
-            self.assertIn('href="repository.anicat-1.0.0.zip"', (root / 'index.html').read_text())
+            self.assertEqual((root / 'repository.anicat-1.0.1.zip').read_bytes(),
+                             (root / 'repository.anicat/repository.anicat-1.0.1.zip').read_bytes())
+            self.assertIn('href="repository.anicat-1.0.1.zip"', (root / 'index.html').read_text())
             self.assertTrue((root / 'descargar.html').exists())
-            with ZipFile(root / 'repository.anicat/repository.anicat-1.0.0.zip') as archive:
+            with ZipFile(root / 'repository.anicat/repository.anicat-1.0.1.zip') as archive:
                 self.assertIsNone(archive.testzip())
                 manifest = ET.fromstring(archive.read('repository.anicat/addon.xml'))
-                self.assertEqual(manifest.findtext('extension/dir/info'), 'https://anicat-org.github.io/repository.anicat/addons.xml')
+                self.assertEqual(manifest.get('version'), '1.0.1')
+                self.assertEqual(manifest.get('name'), 'Ani[COLOR FFD71920]CAT[/COLOR] Repository')
+                self.assertEqual(manifest.findtext('extension/dir/info'), 'https://repo.ani.cat/repository.anicat/addons.xml')
 
     def test_version_mismatch_and_unsafe_assets_fail(self):
         with tempfile.TemporaryDirectory() as folder:

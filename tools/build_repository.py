@@ -12,8 +12,8 @@ import xml.etree.ElementTree as ET
 from zipfile import ZipFile, ZIP_DEFLATED
 
 SOURCE = 'anicat-org/plugin.video.anicat'
-BASE_URL = 'https://anicat-org.github.io/repository.anicat'
-REPO_VERSION = '1.0.0'
+BASE_URL = 'https://repo.ani.cat/repository.anicat'
+REPO_VERSION = '1.0.1'
 
 
 def release_zip(tag):
@@ -73,7 +73,7 @@ def build(data, output, base_url=BASE_URL, expected_version=None):
     news = addon.findtext("extension[@point='xbmc.addon.metadata']/news", '')
     (addon_dir / ('changelog-' + version + '.txt')).write_text(news, encoding='utf-8')
 
-    repo = ET.fromstring('''<addon id="repository.anicat" name="AniCAT Repository" version="1.0.0" provider-name="AniCAT">
+    repo = ET.fromstring('''<addon id="repository.anicat" name="Ani[COLOR FFD71920]CAT[/COLOR] Repository" version="1.0.0" provider-name="AniCAT">
       <requires><import addon="xbmc.addon" version="12.0.0" /></requires>
       <extension point="xbmc.addon.repository" name="AniCAT Repository"><dir minversion="21.0.0">
         <info /><checksum /><datadir /><hashes>false</hashes>
