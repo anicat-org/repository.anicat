@@ -6,6 +6,8 @@ import io
 import json
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
+import tempfile
 from urllib.request import Request, urlopen
 import xml.etree.ElementTree as ET
 from zipfile import ZipFile, ZIP_DEFLATED
@@ -23,14 +25,18 @@ def fetch(url):
 def release_zip(tag):
     if not re.fullmatch(r'v\d+\.\d+\.\d+', tag):
         raise ValueError('Expected a stable vX.Y.Z release tag')
-    release = json.loads(fetch('https://api.github.com/repos/' + SOURCE + '/releases/tags/' + tag))
-    if release['draft'] or release['prerelease']:
+    release = json.loads(subprocess.check_output(['gh', 'release', 'view', tag, '--repo', SOURCE,
+                                                  '--json', 'isDraft,isPrerelease,assets']))
+    if release['isDraft'] or release['isPrerelease']:
         raise ValueError('Only published stable releases are distributed')
     asset = next(a for a in release['assets'] if a['name'] == 'plugin.video.anicat-' + tag + '.zip')
     expected_url = 'https://github.com/' + SOURCE + '/releases/download/' + tag + '/' + asset['name']
-    if asset['browser_download_url'] != expected_url:
+    if asset['url'] != expected_url:
         raise ValueError('Unexpected release asset URL')
-    data = fetch(expected_url)
+    with tempfile.TemporaryDirectory() as directory:
+        subprocess.run(['gh', 'release', 'download', tag, '--repo', SOURCE, '--pattern', asset['name'],
+                        '--dir', directory], check=True)
+        data = (Path(directory) / asset['name']).read_bytes()
     if asset.get('digest') and asset['digest'] != 'sha256:' + hashlib.sha256(data).hexdigest():
         raise ValueError('Release asset checksum mismatch')
     return data
@@ -124,5 +130,6 @@ if __name__ == '__main__':
     parser.add_argument('--base-url', default=BASE_URL)
     args = parser.parse_args()
     tag = json.loads(Path('release.json').read_text())['tag']
-    data = args.zip.read_bytes() if args.zip else release_zip(tag)
+    package = args.zip or Path('packages') / ('plugin.video.anicat-' + tag + '.zip')
+    data = package.read_bytes()
     print('Built AniCAT', build(data, args.output, args.base_url, tag.removeprefix('v')))

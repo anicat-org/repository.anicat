@@ -11,11 +11,12 @@ y Cloud Drive Common 1.4.0 están disponibles en el repositorio oficial de Kodi.
 
 ## Publicación
 
-`release.json` fija el tag estable que se distribuye. El workflow descarga el ZIP
-original de GitHub Releases, verifica su checksum cuando GitHub lo proporciona,
+`release.json` fija el tag estable que se distribuye. El workflow del addon descarga el ZIP
+original de GitHub Releases usando su token de Actions (el código fuente es privado), verifica su checksum cuando GitHub lo proporciona,
 comprueba su versión y construye el índice, los assets y los paquetes instalables.
 El ZIP original se conserva byte a byte con el nombre requerido por Kodi, sin `v`.
-El contenido generado en `site/` no se versiona.
+El contenido generado en `site/` no se versiona. `packages/` contiene los ZIP
+distribuibles públicos; el despliegue de Pages no necesita acceso al repositorio privado.
 
 El repositorio del addon actualiza `release.json` al publicar una release estable,
 mediante una deploy key SSH limitada a este repositorio. También puede ejecutarse
